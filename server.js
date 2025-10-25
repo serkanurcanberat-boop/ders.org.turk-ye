@@ -1,6 +1,7 @@
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const app = express();
@@ -29,8 +30,10 @@ app.post("/api/chat", async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (err) {
+    console.error("Hata:", err);
     res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(3000, () => console.log("Server çalışıyor: http://localhost:3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server ${PORT} portunda çalışıyor...`));
