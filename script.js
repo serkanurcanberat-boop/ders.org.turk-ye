@@ -1,9 +1,11 @@
-document.getElementById("askBtn").addEventListener("click", async () => {
-  const question = document.getElementById("question").value.trim();
-  const answerDiv = document.getElementById("answer");
+const askBtn = document.getElementById("askBtn");
+const questionInput = document.getElementById("question");
+const answerDiv = document.getElementById("answer");
 
+askBtn.addEventListener("click", async () => {
+  const question = questionInput.value.trim();
   if (!question) {
-    answerDiv.textContent = "Lütfen bir konu veya soru yaz.";
+    answerDiv.textContent = "Lütfen bir soru yaz!";
     return;
   }
 
@@ -14,7 +16,8 @@ document.getElementById("askBtn").addEventListener("click", async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // ⚠️ Burada kendi OpenAI API anahtarını gir!
+        // ↓ Buraya kendi anahtarını tek satırda ve tek boşlukla yaz:
+        // "Authorization": "Bearer sk-XXXXXXXXXXXXXXXXXXXXXXXX"
         "Authorization": "Bearer sk-...Kr4A"
       },
       body: JSON.stringify({
@@ -23,18 +26,20 @@ document.getElementById("askBtn").addEventListener("click", async () => {
           { role: "system", content: "Sen bir ders anlatıcısın. Öğrencilere açık, sade ve öğretici şekilde yanıt ver." },
           { role: "user", content: question }
         ],
-      }),
+        max_tokens: 500
+      })
     });
 
-    const data = await response.json();
-
-    if (data.error) {
-      answerDiv.textContent = "Bir hata oluştu: " + data.error.message;
-    } else {
-      answerDiv.textContent = data.choices[0].message.content;
+    // Eğer istek 200 değilse JSON.parse hata verebilir, önce status kontrolü yapalım
+    if (!response.ok) {
+      const errText = await response.text();
+      answerDiv.textContent = `Sunucu hatası: ${response.status} - ${errText}`;
+      return;
     }
 
-  } catch (error) {
-    answerDiv.textContent = "Bağlantı hatası: " + error.message;
+    const data = await response.json();
+    answerDiv.textContent = data.choices?.[0]?.message?.content || "Yanıt boş geldi.";
+  } catch (err) {
+    answerDiv.textContent = "Bağlantı hatası: " + err.message;
   }
 });
