@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Destekli Ders Sitesi</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🤖 AI Destekli Ders Sitesi</h1>
+  <p>Bir konu yaz, yapay zekâ sana anlatsın 👇</p>
+
+  <form>
+    <textarea id="question" placeholder="Örneğin: 'Fotosentez nedir?'"></textarea><br>
+    <button type="submit">Sor</button>
+  </form>
+
+  <div id="output"></div>
+
+  <!-- Script en altta olmalı -->
+  <script src="script.js"></script>
+</body>
+</html>
