@@ -18,7 +18,7 @@ askBtn.addEventListener("click", async () => {
         "Content-Type": "application/json",
         // ↓ Buraya kendi anahtarını tek satırda ve tek boşlukla yaz:
         // "Authorization": "Bearer sk-XXXXXXXXXXXXXXXXXXXXXXXX"
-        "Authorization": "Bearer sk-...Kr4A"
+        "Authorization": "Bearer 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"
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
